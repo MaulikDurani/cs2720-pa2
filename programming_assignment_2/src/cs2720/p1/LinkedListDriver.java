@@ -4,42 +4,49 @@ import java.io.*;
 import java.util.*;
 
 public class LinkedListDriver<T extends Comparable<T>> {
-    public static void main(String[] args) {
-	try {
-	    
-	    DoublyLinkedList dll = new DoublyLinkedList();
-	    
-	    Scanner sc = new Scanner(System.in);
-	    System.out.println("Enter list type (i - int, d - double, s - std:string): ");
-	    String choice = sc.nextLine();
-	    sc.close();
-	    File file = null;
-	    // File "creation"
-	    if (choice.equals("i")) {
-		file = new File("int-input.txt");
-	    } else if (choice.equals("d")) {
-		file = new File("double-input.txt");
-	    } else if (choice.equals("s")) {
-		file = new File("string-input.txt");
-	    }
-	    
-	    // Copying contents of file into String dataset
-	    Scanner reader = new Scanner(file);
-	    String dataset = reader.nextLine();
-	    reader.close();
-	    
-	    Scanner read = new Scanner(dataset);
-	    
-	    while (read.hasNext()) {
-		dll.insertItem(read.next());
-	    }
-	    read.close();
-	    
-	    dll.print();
-	    
-	} catch (FileNotFoundException fnfe) {
-	    System.err.println("FileNotFound");
-	}
-	
-    }
-}
+	public static void main(String[] args) throws FileNotFoundException {
+		DoublyLinkedList dll = new DoublyLinkedList();
+		File file = null;
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Enter list type (i - int, d - double, s - std:string): ");
+		String choice = sc.nextLine();
+		sc.close();
+		// File "creation"
+		switch (choice) {
+			case ("i"): {
+				file = new File("resources/int-input.txt");
+				break;
+			}
+			case ("d"): {
+				file = new File("resources/double-input.txt");
+				break;
+			}
+			case ("s"): {
+				file = new File("resources/string-input.txt");
+				break;
+			}
+		} // end of switch statement
+
+		System.out.print(readData(file));
+
+	} // main
+
+	/** file creation will be updated to create the dll objects later on */
+	private static String readData(File file) throws FileNotFoundException {
+		try (Scanner reader = new Scanner(file)) {
+			StringBuilder dataset = new StringBuilder();
+
+			while (reader.hasNextLine()) {
+				dataset.append(reader.nextLine()).append("\n");
+			}
+
+			Scanner read = new Scanner(dataset.toString()); // gonna figure this out later
+			// String str = ;
+			return (dataset.toString());
+		} catch (FileNotFoundException fnfe) {
+			return "not a string";
+		}
+
+	} // readData()
+
+}// Linked List driver class
