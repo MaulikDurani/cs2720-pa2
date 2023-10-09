@@ -1,4 +1,4 @@
-Ryan Majd & Maulik Durani | <rm97798@uga.edu> & <maulikdurani@uga.edu>
+Ryan Majd & Maulik Durani | <rm97798@uga.edu> & <md00211@uga.edu>
 
     # doubly-linked-list assignment
 
