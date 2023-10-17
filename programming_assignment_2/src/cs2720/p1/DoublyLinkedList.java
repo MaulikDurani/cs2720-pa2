@@ -3,6 +3,7 @@ package cs2720.p1;
 public class DoublyLinkedList<T extends Comparable<T>> {
 	private Nodetype<T> head;
 	private int length;
+	public String elementType = "String";
 
 	/**
 	 * Creates a new DoublyLinkedList
@@ -13,17 +14,31 @@ public class DoublyLinkedList<T extends Comparable<T>> {
 		length = 0;
 	}
 
+	public void insertItem(String str) {
+		T temp = (T) str;
+		insertItem(temp);
+	}
+
+	public void deleteItem(String str) {
+		T temp = (T) str;
+		insertItem(temp);
+	}
+
+	/**
+	 * Inserts the specified item into the doubly linked list.
+	 * 
+	 * @param item
+	 */
 	public void insertItem(T item) {
+		// List should already exist before inserting - no need for exceptions.
 		Nodetype<T> newNode = new Nodetype<T>(item);
-		newNode.info = item;
 		Nodetype<T> temp = head;
 		System.out.println("newNode: " + newNode.info); // remove later
 		// insert first item
 		if (head == null) {
-			head = newNode;
+			this.head = newNode;
 			return;
 		}
-
 		// insert item at the beginnning of the list;
 		if (newNode.info.compareTo(head.info) < 0) {
 			head = newNode;
@@ -32,20 +47,17 @@ public class DoublyLinkedList<T extends Comparable<T>> {
 			return;
 		}
 
-		while (temp != null && temp.getInfo().compareTo(item) < 0) {
-			if (temp.getInfo().compareTo(item) == 0) {
-				System.out.println("Item already exists");
-				return;
-			}
-			if (temp.getInfo().compareTo(item) < 0) {
-				newNode.next = temp.next;
-				newNode.back = temp;
-				return;
-			}
-			temp = temp.next;
-
-		}
-
+		// while (temp != null && temp.getInfo().compareTo(item) < 0) {
+		// if (temp.getInfo().compareTo(item) == 0) {
+		// System.out.println("Item already exists");
+		// return;
+		// }
+		// if (temp.getInfo().compareTo(item) < 0) {
+		// newNode.next = temp.next;
+		// newNode.back = temp;
+		// return;
+		// }
+		temp = temp.next;
 	}
 
 	public void deleteItem(T item) {
@@ -56,14 +68,14 @@ public class DoublyLinkedList<T extends Comparable<T>> {
 		return this.length;
 	}
 
-	public void print() {
-		String list = "";
-		Nodetype<T> temp = head;
-		while (temp != null) {
-			list += temp.getInfo() + " ";
-		}
-		System.out.println(list);
-	}
+	// public void print() {
+	// String list = "";
+	// Nodetype<T> temp = this.head;
+	// while (temp != null) {
+	// list += temp.getInfo() + "";
+	// }
+	// System.out.println(list);
+	// }
 
 	public void printReverse() {
 		throw new UnsupportedOperationException();
@@ -101,12 +113,18 @@ public class DoublyLinkedList<T extends Comparable<T>> {
 		length = Arr.length;
 	} // initialize
 
+	/**
+	 * 
+	 * @param doubleArray
+	 */
 	public void initialize(Double[] doubleArray) {
 		if (doubleArray.length == 0) {
 			return;
 		}
 
-		// Convert Double array to NodeType objects
+		// Convert Double array to NodeType objects using Casting to NodeType
+		// Due to previous methods and implementation, there should not be an error
+		// here.
 		this.head = new Nodetype<T>((T) doubleArray[0]);
 		Nodetype<T> current = head;
 
@@ -119,6 +137,12 @@ public class DoublyLinkedList<T extends Comparable<T>> {
 		length = doubleArray.length;
 	} // init double array
 
+	/**
+	 * Final initialization of the array to a Doubly Linked List.
+	 * By Ryan Majd
+	 * 
+	 * @param integerArray
+	 */
 	public void initialize(Integer[] integerArray) {
 		if (integerArray.length == 0) {
 			return;
@@ -137,6 +161,14 @@ public class DoublyLinkedList<T extends Comparable<T>> {
 		length = integerArray.length;
 	}
 
+	/**
+	 * Initializes the beginning string to create an array for easier ingestion into
+	 * the ADT.
+	 * 
+	 * By Ryan Majd
+	 * 
+	 * @param string
+	 */
 	public void initialize(String string) {
 		String[] stringArray = string.split(" ");
 		if (stringArray.length == 0) {
@@ -176,6 +208,13 @@ public class DoublyLinkedList<T extends Comparable<T>> {
 		return true;
 	}
 
+	/**
+	 * Boolean method checks if the array provided is an Integer array.
+	 * Created by Ryan Majd
+	 * 
+	 * @param elements
+	 * @return
+	 */
 	private boolean isIntArray(String[] elements) {
 		for (String element : elements) {
 			try {
@@ -192,14 +231,18 @@ public class DoublyLinkedList<T extends Comparable<T>> {
 	 * By Ryan Majd
 	 */
 	public String toString() {
-		String str = "Length: " + this.length + "\n";
+		String list = "";
 		Nodetype<T> current = this.head;
 		for (int i = 0; i < this.length; i++) {
-			str += current.getInfo() + "\n";
+			if (i < this.length - 1) {
+				list += current.getInfo() + " ";
+			} else {
+				list += current.getInfo() + "";
+			}
 			current = current.getNext();
 		} // for loop iteration
+		return list;
 
-		return str;
-	}
+	} // toString()
 
 }

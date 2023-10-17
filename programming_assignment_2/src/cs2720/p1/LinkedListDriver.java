@@ -18,7 +18,6 @@ public class LinkedListDriver<T extends Comparable<T>> {
 		boolean badPrevAns = false;
 		System.out.print("Enter list type (i - int, d - double, s - std:string): ");
 		String choice = sc.nextLine();
-		// DoublyLinkedList<T> dll = new DoublyLinkedList<>(); // init with generic type
 		DoublyLinkedList dll;
 		// File "creation"
 		switch (choice) {
@@ -65,12 +64,10 @@ public class LinkedListDriver<T extends Comparable<T>> {
 				"(q) - Quit program\n";
 		System.out.print(commands);
 		String list = readData(file);
-		System.out.println("REMOVE LATER: " + list);
 		dll.initialize(list);
-		System.out.println("REMOVE LATER: " + dll.toString());
 		while (!quit) {
 			if (!badPrevAns) {
-				System.out.print("\nEnter a Command: ");
+				System.out.print("Enter a Command: ");
 			}
 			String cmd = sc.nextLine();
 			cmd = cmd.toLowerCase();
@@ -78,10 +75,10 @@ public class LinkedListDriver<T extends Comparable<T>> {
 			switch (cmd) {
 				case "i":
 					badPrevAns = false;
-					System.out.print("Enter a number to insert: ");
-					int newNum = sc.nextInt();
-					// dll.insertItem(new ItemType(newNum));
-					sc.nextLine();
+					System.out.println("Enter a " + dll.elementType + " to insert: ");
+					// need to figure a way to save the input text
+					String inputText = sc.nextLine();
+					dll.insertItem(inputText);
 					break;
 				case "q":
 					quit = true;
@@ -90,38 +87,38 @@ public class LinkedListDriver<T extends Comparable<T>> {
 					break;
 				case "p":
 					badPrevAns = false;
-					System.out.print("The list is: " + ("im working on it").toString());
+					System.out.print("The list is: " + dll.toString());
 					break;
 				case "d":
 					badPrevAns = false;
-					System.out.print("Enter a number to delete: ");
-					newNum = sc.nextInt();
-					// dll.deleteItem(new (newNum));
+					System.out.println("Enter a " + dll.elementType + " to delete: ");
+					String newNum = sc.nextLine();
+					dll.deleteItem(newNum);
 					sc.nextLine();
 					break;
 				case "s":
 					badPrevAns = false;
-					System.out.print("Swap Alternate");
+					System.out.println("Swap Alternate");
 					break;
 				case "r":
 					badPrevAns = false;
 
-					System.out.print("Reverse list");
+					System.out.println("Reverse list");
 					break;
 				case "b":
-					System.out.print("delete subsection");
+					System.out.println("delete subsection");
 					break;
 				case "t":
 					badPrevAns = false;
-					System.out.print("Print reverse");
+					System.out.println("Print reverse");
 					break;
 				case "l":
 					badPrevAns = false;
-					System.out.print("The length of the list is " + dll.length()); // FJX
+					System.out.println("The length of the list is " + dll.length()); // FJX
 					break;
 				default:
 					badPrevAns = true;
-					System.out.print("Invalid command, try again: ");
+					System.out.println("Invalid command, try again: ");
 					break;
 			} // switch statement
 		} // while loop
