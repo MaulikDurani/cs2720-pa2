@@ -33,7 +33,7 @@ public class LinkedListDriver<T extends Comparable<T>> {
 				file = new File("resources/string-input.txt");
 				break;
 			}
-			default: {
+		        default: {
 				System.err.println("Invalid file format");
 				return;
 			}
