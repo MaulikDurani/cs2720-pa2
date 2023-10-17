@@ -4,13 +4,22 @@ import java.io.*;
 import java.util.*;
 
 public class LinkedListDriver<T extends Comparable<T>> {
+	/**
+	 * Main method of Driver to run program.
+	 * 
+	 * @param args
+	 * @throws FileNotFoundException
+	 */
 	public static void main(String[] args) throws FileNotFoundException {
-		DoublyLinkedList dll = new DoublyLinkedList();
 		File file = null;
 		Scanner sc = new Scanner(System.in);
+		// Scanner scan;
+		boolean quit = false;
+		boolean badPrevAns = false;
 		System.out.print("Enter list type (i - int, d - double, s - std:string): ");
 		String choice = sc.nextLine();
-		sc.close();
+		// DoublyLinkedList<T> dll = new DoublyLinkedList<>(); // init with generic type
+		DoublyLinkedList dll;
 		// File "creation"
 		switch (choice) {
 			case ("i"): {
@@ -25,13 +34,107 @@ public class LinkedListDriver<T extends Comparable<T>> {
 				file = new File("resources/string-input.txt");
 				break;
 			}
-		} // end of switch statement
+			default: {
+				System.err.println("Invalid file format");
+				return;
+			}
 
-		System.out.print(readData(file));
+		} // end of switch statement
+		switch (choice) {
+			case "d": {
+				dll = new DoublyLinkedList<Double>(); // DoublyLinkedList<Double>
+				break;
+			}
+			case "s": {
+				dll = new DoublyLinkedList<String>(); // dll = new DoublyLinkedList<String>(); //
+				break;
+			}
+			default: {
+				dll = new DoublyLinkedList<Integer>(); // DoublyLinkedList<Integer>
+			}
+		}
+		String commands = "Commands: \n" +
+				"(i) - Insert value\n" +
+				"(d) - Delete value\n" +
+				"(p) - Print list\n" +
+				"(l) - Length\n" +
+				"(t) - Print reverse\n" +
+				"(r) - Reverse list\n" +
+				"(b) - Delete Subsection\n" +
+				"(s) - Swap Alternate\n" +
+				"(q) - Quit program\n";
+		System.out.print(commands);
+		String list = readData(file);
+		System.out.println("REMOVE LATER: " + list);
+		dll.initialize(list);
+		System.out.println("REMOVE LATER: " + dll.toString());
+		while (!quit) {
+			if (!badPrevAns) {
+				System.out.print("\nEnter a Command: ");
+			}
+			String cmd = sc.nextLine();
+			cmd = cmd.toLowerCase();
+
+			switch (cmd) {
+				case "i":
+					badPrevAns = false;
+					System.out.print("Enter a number to insert: ");
+					int newNum = sc.nextInt();
+					// dll.insertItem(new ItemType(newNum));
+					sc.nextLine();
+					break;
+				case "q":
+					quit = true;
+					System.out.println("Exiting the program...");
+					sc.close();
+					break;
+				case "p":
+					badPrevAns = false;
+					System.out.print("The list is: " + ("im working on it").toString());
+					break;
+				case "d":
+					badPrevAns = false;
+					System.out.print("Enter a number to delete: ");
+					newNum = sc.nextInt();
+					// dll.deleteItem(new (newNum));
+					sc.nextLine();
+					break;
+				case "s":
+					badPrevAns = false;
+					System.out.print("Swap Alternate");
+					break;
+				case "r":
+					badPrevAns = false;
+
+					System.out.print("Reverse list");
+					break;
+				case "b":
+					System.out.print("delete subsection");
+					break;
+				case "t":
+					badPrevAns = false;
+					System.out.print("Print reverse");
+					break;
+				case "l":
+					badPrevAns = false;
+					System.out.print("The length of the list is " + dll.length()); // FJX
+					break;
+				default:
+					badPrevAns = true;
+					System.out.print("Invalid command, try again: ");
+					break;
+			} // switch statement
+		} // while loop
 
 	} // main
 
-	/** file creation will be updated to create the dll objects later on */
+	/**
+	 * !File creation will be updated to create the dll objects later on!.
+	 * 
+	 * @param file
+	 * @return String representing the dll object.
+	 * @throws FileNotFoundException
+	 */
 	private static String readData(File file) throws FileNotFoundException {
 		try (Scanner reader = new Scanner(file)) {
 			StringBuilder dataset = new StringBuilder();
@@ -39,9 +142,7 @@ public class LinkedListDriver<T extends Comparable<T>> {
 			while (reader.hasNextLine()) {
 				dataset.append(reader.nextLine()).append("\n");
 			}
-
 			Scanner read = new Scanner(dataset.toString()); // gonna figure this out later
-			// String str = ;
 			return (dataset.toString());
 		} catch (FileNotFoundException fnfe) {
 			return "not a string";
