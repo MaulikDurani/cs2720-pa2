@@ -119,6 +119,30 @@ public class DoublyLinkedList<T extends Comparable<T>> {
 	}
 	
     }
+
+
+    /**
+     * Swaps adjacent nodes.
+     *
+     */
+    public void swapAlternate() {
+	if (head == null || head.getNext() == null) {
+	    return;
+	}
+
+	Nodetype<T> current = head;
+
+	while (current != null && current.getNext() != null) {
+	    Nodetype<T> temp = current.getNext();
+	    current.setNext(current.getNext().getNext());
+	    temp.setNext(current);
+	    current = current.getNext();
+	    if (current != null && current.getNext() != null) {
+		temp.getNext().setNext(current.getNext());
+	    }
+	}
+    }
+
     
     /* Helper Methods */
     
