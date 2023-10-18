@@ -22,6 +22,12 @@ public class Nodetype<T extends Comparable<T>> {
         return this.info;
     }
 
+    public String getInfoToString() {
+        String ans = this.info.toString().trim();
+        ans = ans.replaceAll("\n", "");
+        return ans;
+    }
+
     // Returns the next node of this NodeType object
     public Nodetype<T> getNext() {
         return this.next;

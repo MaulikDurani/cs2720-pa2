@@ -1,8 +1,21 @@
 package cs2720.p1;
 
+/**
+ * This class represents a Doubly Linked List that can store elements of type T.
+ * It provides methods to insert and delete elements, check if an element is in
+ * the list,
+ * print the list in reverse order, delete a subsection of the list, and swap
+ * adjacent nodes.
+ * The list can be sorted in ascending or descending order based on the order of
+ * the elements.
+ * 
+ * @param <T> the type of elements that can be stored in the list, must
+ *            implement Comparable interface.
+ * 
+ * 
+ */
 public class DoublyLinkedList<T extends Comparable<T>> {
-	private Nodetype<T> head;
-	public Nodetype<T> tail = null;
+	private Nodetype<T> head, tail;
 	private int length;
 	public String elementType = "String";
 	private boolean isAscending = true; // Default is true
@@ -13,76 +26,142 @@ public class DoublyLinkedList<T extends Comparable<T>> {
 	 */
 	public DoublyLinkedList() {
 		head = new Nodetype<T>(null);
+		tail = new Nodetype<T>(null);
 		length = 0;
 	}
 
 	public void insertItem(String str) {
-		checkOrder();
-		System.out.println(this.isAscending);
+		checkOrder(); // will check list and set isAscending to true or false
+		// cast string to T
+		T cast = (T) str;
+		insertItem(cast);
 	}
 
 	public void deleteItem(String str) {
 		checkOrder();
-		T temp = (T) str;
-
+		T cast = (T) str;
+		deleteItem(cast);
 	}
 
 	/**
-	 * Inserts the specified item into the doubly linked list.
+	 * Inserts an item into the doubly linked list in ascending or descending order
+	 * based on the isAscending flag.
+	 * If the item already exists in the list, it will not be inserted.
 	 * 
-	 * @param item
+	 * @param item        the item to be inserted into the list
+	 * @param isAscending a boolean flag indicating whether the list should be
+	 *                    sorted in ascending or descending order
+	 * @throws NullPointerException if the item is null
+	 * 
+	 *                              By Ryan Majd
+	 * 
 	 */
 	public void insertItem(T item) {
+		if (item == null) {
+			throw new NullPointerException("item to be inserted is null or empty");
+		}
+		if (itemIsInList(item)) {
+			System.out.println("Item already exists");
+			return;
+		}
 		// List should already exist before inserting - no need for exceptions.
 		Nodetype<T> newNode = new Nodetype<T>(item);
-		Nodetype<T> temp = head;
-		System.out.println("newNode: " + newNode.info); // remove later
-		// insert first item
-		if (head == null) {
+		if (this.head == null) {
 			this.head = newNode;
+			this.tail = newNode;
+			length++;
 			return;
-		}
-		// insert item at the beginnning of the list;
-		if (newNode.info.compareTo(head.info) < 0) {
-			head = newNode;
-			newNode.next = temp;
-			temp.next.back = newNode;
-			return;
-		}
+		} // Inserting into an empty list
+		int compareResult;
+		Nodetype<T> current = head;
+		Nodetype<T> prev = null;
 
-		// while (temp != null && temp.getInfo().compareTo(item) < 0) {
-		// if (temp.getInfo().compareTo(item) == 0) {
-		// System.out.println("Item already exists");
-		// return;
-		// }
-		// if (temp.getInfo().compareTo(item) < 0) {
-		// newNode.next = temp.next;
-		// newNode.back = temp;
-		// return;
-		// }
-		temp = temp.next;
-	}
+		// Traverse the list and find index to place item
+		while (current != null) {
+			compareResult = item.compareTo(current.getInfo());
+
+			if (isAscending && compareResult <= 0) {
+				break;
+			}
+			if (!isAscending && compareResult >= 0) {
+				break;
+			}
+			prev = current;
+			current = current.getNext();
+		} // while loop
+
+		// Inserting before or after the curr node
+		newNode.setNext(current);
+		if (current != null) {
+			current.setPrev(newNode);
+		} // if
+		if (prev != null) {
+			prev.setNext(newNode);
+		} else {
+			this.head = newNode;
+		} // if else
+		newNode.setPrev(prev);
+		if (current == null) {
+			this.tail = newNode;
+		}
+		this.length++;
+	} // insert item
 
 	public void deleteItem(T item) {
-		throw new UnsupportedOperationException();
-	}
+		if (item == null) {
+			throw new NullPointerException("Not a valid item to delete.");
+		} else if (!itemIsInList(item)) {
+			System.out.println("The item is not present in the list");
+			return;
+		}
+		Nodetype<T> current = this.head;
+		while (current != null) {
+			if (current.getInfo().compareTo(item) == 0) {
+				// If the item is in the current place, remove it
+				Nodetype<T> prev = current.getBack();
+				Nodetype<T> next = current.getNext();
 
+				if (prev != null) {
+					prev.setNext(next);
+				} else {
+					// If it's the head, update the head
+					head = next;
+					if (head != null) {
+						head.setPrev(null); // Set the previous of the new head to null
+					}
+				}
+
+				if (next != null) {
+					next.setPrev(prev);
+				} else {
+					// If it's the tail, update the tail
+					tail = prev;
+				}
+
+				// Nullify the item and references
+				current.setNext(null);
+				current.setPrev(null);
+				current.info = null;
+
+				// Break out of the loop after deleting the item
+				break;
+			}
+			current = current.getNext();
+		}
+
+		this.length--;
+	} // delete items
+
+	/**
+	 * Returns length of list as an int.
+	 * 
+	 * @return int length of list.
+	 *         By : Ryan Majd
+	 */
 	public int length() {
 		return this.length;
 	}
 
-	// public void print() {
-	// String list = "";
-	// Nodetype<T> temp = this.head;
-	// while (temp != null) {
-	// list += temp.getInfo() + "";
-	// }
-	// System.out.println(list);
-	// }
-	/**
-	 * Reverses the doubly linked list.
-	 *
-	 */
 	public void printReverse() {
 		Nodetype<T> temp = head;
 		Nodetype<T> revNode = null;
@@ -145,7 +224,23 @@ public class DoublyLinkedList<T extends Comparable<T>> {
 		}
 	}
 
-	/* Helper Methods */
+	/**
+	 * Returns the number of elements in the given DoublyLinkedList
+	 * By Ryan Majd
+	 */
+	public String toString() {
+		String list = "";
+		Nodetype<T> current = this.head;
+		for (int i = 0; i < this.length; i++) {
+			list += current.getInfo() + " ";
+			current = current.getNext();
+		} // for loop iteration
+		list = list.replaceAll("\n", "");
+		return list.trim();
+
+	} // toString()
+
+	/***************************** Helper Methods ****************************/
 
 	/**
 	 * Alters boolean of isAscending to assist insert and delete operations.
@@ -153,6 +248,10 @@ public class DoublyLinkedList<T extends Comparable<T>> {
 	 * By Ryan Majd
 	 */
 	private void checkOrder() {
+		if (this.head == null) {
+			this.isAscending = true;
+			return;
+		} // if
 		int ans = this.head.getInfo().compareTo(this.tail.getInfo());
 		if (ans < 0) {
 			this.isAscending = true;
@@ -163,166 +262,96 @@ public class DoublyLinkedList<T extends Comparable<T>> {
 		} else {
 			throw new IllegalArgumentException("Invalid list");
 		}
-
 	} // check order
 
 	/**
-	 * Initializes the specified {@link inputString} with the current Object.
-	 * Created by Ryan
+	 * Initializes the doubly linked list with the elements of the given array.
+	 * If the array is empty, the list remains empty.
+	 * The first element of the array becomes the head of the list and the last
+	 * element becomes the tail.
+	 * Each element of the array is added to the list in the order they appear in
+	 * the array.
 	 * 
-	 * @param inputString
-	 */
-
-	public void initialize(T[] Arr) {
-		// Convert generic to NodeType objects
-		this.head = new Nodetype<T>((T) Arr[0]);
-		this.tail = new Nodetype<T>((T) Arr[Arr.length - 1]);
-		Nodetype<T> current = head;
-
-		for (int i = 1; i < Arr.length; i++) {
-			Nodetype<T> newNode = new Nodetype<T>((T) Arr[i]);
-			current.setNext(newNode);
-			newNode.setPrev(current);
-			current = newNode;
-		}
-
-		length = Arr.length;
-	} // initialize
-
-	/**
+	 * By : Ryan Majd
 	 * 
-	 * @param doubleArray
+	 * @param array the array of elements to initialize the list with
 	 */
-	public void initialize(Double[] doubleArray) {
-		if (doubleArray.length == 0) {
+	public void initializeFromArray(T[] array) {
+		if (array.length == 0) {
 			return;
 		}
 
-		// Convert Double array to NodeType objects using Casting to NodeType
-		// Due to previous methods and implementation, there should not be an error
-		// here.
-		this.head = new Nodetype<T>((T) doubleArray[0]);
-		this.tail = new Nodetype<T>((T) doubleArray[doubleArray.length - 1]);
+		this.head = new Nodetype<>(array[0]);
+		this.tail = new Nodetype<>(array[array.length - 1]);
 		Nodetype<T> current = head;
 
-		for (int i = 1; i < doubleArray.length; i++) {
-			Nodetype<T> newNode = new Nodetype<T>((T) doubleArray[i]);
+		for (int i = 1; i < array.length; i++) {
+			Nodetype<T> newNode = new Nodetype<>(array[i]);
 			current.setNext(newNode);
 			newNode.setPrev(current);
 			current = newNode;
 		}
-		length = doubleArray.length;
-	} // init double array
+
+		length = array.length;
+	} // init from Arr
 
 	/**
-	 * Initialization of the array to a Doubly Linked List.
-	 * By Ryan Majd
+	 * Initializes the doubly linked list from a string by splitting it into an
+	 * array of strings and creating a new node for each string.
+	 * The first node is set as the head and the last node is set as the tail.
+	 * Each node is linked to the previous and next nodes to form a doubly linked
+	 * list.
 	 * 
-	 * @param integerArray
+	 * By: Ryan Majd
+	 * 
+	 * @param string the string to initialize the doubly linked list from
+	 * @param <T>    the type of the elements in the doubly linked list
 	 */
-	public void initialize(Integer[] integerArray) {
-		if (integerArray.length == 0) {
-			return;
-		}
-
-		// Convert Integer array to NodeType objects
-		this.head = new Nodetype<T>((T) integerArray[0]);
-		this.tail = new Nodetype<T>((T) integerArray[integerArray.length - 1]);
-		Nodetype<T> current = head;
-
-		for (int i = 1; i < integerArray.length; i++) {
-			Nodetype<T> newNode = new Nodetype<T>((T) integerArray[i]);
-			current.setNext(newNode);
-			newNode.setPrev(current);
-			current = newNode;
-		}
-		length = integerArray.length;
-	}
-
-	/**
-	 * Initializes the beginning string to create an array for easier ingestion into
-	 * the ADT.
-	 * 
-	 * By Ryan Majd
-	 * 
-	 * @param string
-	 */
-	public void initialize(String string) {
+	public void initializeFromString(String string) {
 		String[] stringArray = string.split(" ");
 		if (stringArray.length == 0) {
 			return;
 		}
 
-		// Convert String array to NodeType objects
-		this.head = new Nodetype<T>((T) stringArray[0]);
-		this.tail = new Nodetype<T>((T) stringArray[stringArray.length - 1]);
+		this.head = new Nodetype((T) stringArray[0]);
+		this.tail = new Nodetype((T) stringArray[stringArray.length - 1]);
 		Nodetype<T> current = head;
 
 		for (int i = 1; i < stringArray.length; i++) {
-			Nodetype<T> newNode = new Nodetype<T>((T) stringArray[i]);
+			Nodetype<T> newNode = new Nodetype((T) stringArray[i]);
 			current.setNext(newNode);
 			newNode.setPrev(current);
 			current = newNode;
 		}
 
 		length = stringArray.length;
-	} // init String string
+	} // init from string
 
 	/**
-	 * Helper method to check the type of List.
-	 * By Ryan Majd
+	 * Checks if the given item is in the list.
 	 * 
+	 * @param item the item to check for in the list
+	 * @return true if the item is in the list, false otherwise
+	 *         By Ryan Majd
+	 * @deprecated Problem with this method that won't read the last elemenet in the
+	 *             dll.
 	 * 
-	 * @param elements
-	 * @return
 	 */
-	private boolean isDoubleArray(String[] elements) {
-		for (String element : elements) {
-			try {
-				Double.parseDouble(element);
-			} catch (NumberFormatException e) {
-				return false;
+	private boolean itemIsInList(T item) {
+		// if (item.toString().equals("Macy")) {
+		// return true;
+		// }
+		Nodetype<T> checker = this.head;
+		while (checker != null) {
+			if (checker.getInfo().compareTo(item) == 0) {
+				return true;
+			} else if (this.tail.getInfoToString().equals(item.toString())) {
+				return true;
 			}
+			checker = checker.getNext();
 		}
-		return true;
-	}
-
-	/**
-	 * Boolean method checks if the array provided is an Integer array.
-	 * Created by Ryan Majd
-	 * 
-	 * @param elements
-	 * @return
-	 */
-	private boolean isIntArray(String[] elements) {
-		for (String element : elements) {
-			try {
-				Integer.parseInt(element);
-			} catch (NumberFormatException e) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	/**
-	 * Returns the number of elements in the given DoublyLinkedList
-	 * By Ryan Majd
-	 */
-	public String toString() {
-		String list = "";
-		Nodetype<T> current = this.head;
-		for (int i = 0; i < this.length; i++) {
-			if (i < this.length - 1) {
-				list += current.getInfo() + " ";
-			} else {
-				list += current.getInfo() + "";
-			}
-			current = current.getNext();
-		} // for loop iteration
-		list = list.replaceAll("\n", "");
-		return list;
-
-	} // toString()
+		return false;
+	} // itemIsInList
 
 }
+// DLL.java

@@ -64,7 +64,8 @@ public class LinkedListDriver<T extends Comparable<T>> {
 				"(q) - Quit program\n";
 		System.out.print(commands);
 		String list = readData(file);
-		dll.initialize(list);
+		// dll.initialize(list);
+		dll.initializeFromString(list);
 		while (!quit) {
 			if (!badPrevAns) {
 				System.out.print("Enter a Command: ");
@@ -75,10 +76,11 @@ public class LinkedListDriver<T extends Comparable<T>> {
 			switch (cmd) {
 				case "i":
 					badPrevAns = false;
-					System.out.println("Enter a " + dll.elementType + " to insert: ");
+					System.out.print("Enter a " + dll.elementType + " to insert: ");
 					// need to figure a way to save the input text
 					String inputText = sc.nextLine();
 					dll.insertItem(inputText);
+					System.out.println("The list is: " + dll.toString());
 					break;
 				case "q":
 					quit = true;
@@ -91,10 +93,10 @@ public class LinkedListDriver<T extends Comparable<T>> {
 					break;
 				case "d":
 					badPrevAns = false;
-					System.out.println("Enter a " + dll.elementType + " to delete: ");
+					System.out.print("Enter a " + dll.elementType + " to delete: ");
 					String newNum = sc.nextLine();
 					dll.deleteItem(newNum);
-					sc.nextLine();
+					System.out.println("The list is: " + dll.toString());
 					break;
 				case "s":
 					badPrevAns = false;
