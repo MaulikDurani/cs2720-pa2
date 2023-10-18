@@ -2,10 +2,10 @@ package cs2720.p1;
 
 public class DoublyLinkedList<T extends Comparable<T>> {
 	private Nodetype<T> head;
+	public Nodetype<T> tail = null;
 	private int length;
 	public String elementType = "String";
-	public Nodetype<T> tail = null;
-	private boolean isAscending = true;
+	private boolean isAscending = true; // Default is true
 
 	/**
 	 * Creates a new DoublyLinkedList
@@ -18,12 +18,13 @@ public class DoublyLinkedList<T extends Comparable<T>> {
 
 	public void insertItem(String str) {
 		checkOrder();
+		System.out.println(this.isAscending);
 	}
 
 	public void deleteItem(String str) {
 		checkOrder();
 		T temp = (T) str;
-		insertItem(temp);
+
 	}
 
 	/**
@@ -95,8 +96,8 @@ public class DoublyLinkedList<T extends Comparable<T>> {
 			revNode.setPrev(temp);
 		}
 
-		head = revNode;
-		tail = temp;
+		this.head = revNode;
+		this.tail = revHead;
 	}
 
 	/**
@@ -175,6 +176,7 @@ public class DoublyLinkedList<T extends Comparable<T>> {
 	public void initialize(T[] Arr) {
 		// Convert generic to NodeType objects
 		this.head = new Nodetype<T>((T) Arr[0]);
+		this.tail = new Nodetype<T>((T) Arr[Arr.length - 1]);
 		Nodetype<T> current = head;
 
 		for (int i = 1; i < Arr.length; i++) {
@@ -200,6 +202,7 @@ public class DoublyLinkedList<T extends Comparable<T>> {
 		// Due to previous methods and implementation, there should not be an error
 		// here.
 		this.head = new Nodetype<T>((T) doubleArray[0]);
+		this.tail = new Nodetype<T>((T) doubleArray[doubleArray.length - 1]);
 		Nodetype<T> current = head;
 
 		for (int i = 1; i < doubleArray.length; i++) {
@@ -224,6 +227,7 @@ public class DoublyLinkedList<T extends Comparable<T>> {
 
 		// Convert Integer array to NodeType objects
 		this.head = new Nodetype<T>((T) integerArray[0]);
+		this.tail = new Nodetype<T>((T) integerArray[integerArray.length - 1]);
 		Nodetype<T> current = head;
 
 		for (int i = 1; i < integerArray.length; i++) {
@@ -251,6 +255,7 @@ public class DoublyLinkedList<T extends Comparable<T>> {
 
 		// Convert String array to NodeType objects
 		this.head = new Nodetype<T>((T) stringArray[0]);
+		this.tail = new Nodetype<T>((T) stringArray[stringArray.length - 1]);
 		Nodetype<T> current = head;
 
 		for (int i = 1; i < stringArray.length; i++) {
