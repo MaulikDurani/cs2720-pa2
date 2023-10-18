@@ -64,8 +64,8 @@ public class LinkedListDriver<T extends Comparable<T>> {
 				"(q) - Quit program\n";
 		System.out.print(commands);
 		String list = readData(file);
-		// dll.initialize(list);
 		dll.initializeFromString(list);
+
 		while (!quit) {
 			if (!badPrevAns) {
 				System.out.print("Enter a Command: ");

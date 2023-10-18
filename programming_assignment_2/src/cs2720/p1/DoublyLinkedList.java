@@ -232,7 +232,7 @@ public class DoublyLinkedList<T extends Comparable<T>> {
 		String list = "";
 		Nodetype<T> current = this.head;
 		for (int i = 0; i < this.length; i++) {
-			list += current.getInfo() + " ";
+			list += current.getInfoToString() + " ";
 			current = current.getNext();
 		} // for loop iteration
 		list = list.replaceAll("\n", "");
@@ -345,7 +345,7 @@ public class DoublyLinkedList<T extends Comparable<T>> {
 		while (checker != null) {
 			if (checker.getInfo().compareTo(item) == 0) {
 				return true;
-			} else if (this.tail.getInfoToString().equals(item.toString())) {
+			} else if (checker.getInfoToString().equals(item.toString())) {
 				return true;
 			}
 			checker = checker.getNext();
