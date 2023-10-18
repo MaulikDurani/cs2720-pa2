@@ -33,7 +33,7 @@ public class LinkedListDriver<T extends Comparable<T>> {
 				file = new File("resources/string-input.txt");
 				break;
 			}
-		        default: {
+			default: {
 				System.err.println("Invalid file format");
 				return;
 			}
@@ -87,7 +87,7 @@ public class LinkedListDriver<T extends Comparable<T>> {
 					break;
 				case "p":
 					badPrevAns = false;
-					System.out.print("The list is: " + dll.toString());
+					System.out.println("The list is: " + dll.toString());
 					break;
 				case "d":
 					badPrevAns = false;
@@ -102,15 +102,17 @@ public class LinkedListDriver<T extends Comparable<T>> {
 					break;
 				case "r":
 					badPrevAns = false;
-
-					System.out.println("Reverse list");
+					System.out.println("The list is: " + dll.toString());
+					dll.printReverse();
+					System.out.println("The reversed list: " + dll.toString());
 					break;
 				case "b":
 					System.out.println("delete subsection");
 					break;
 				case "t":
 					badPrevAns = false;
-					System.out.println("Print reverse");
+					dll.printReverse();
+					System.out.println("The reverse list: " + dll.toString());
 					break;
 				case "l":
 					badPrevAns = false;
