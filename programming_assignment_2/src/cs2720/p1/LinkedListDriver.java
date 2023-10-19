@@ -100,7 +100,11 @@ public class LinkedListDriver<T extends Comparable<T>> {
 					break;
 				case "s":
 					badPrevAns = false;
-					System.out.println("Swap Alternate");
+					System.out.println("Original List: " + dll.toString());
+					dll.swapAlternate();
+					System.out.println("Modified List: " + dll.toString());
+					dll.printReverse();
+					System.out.println("Reversed List: " + dll.toString());
 					break;
 				case "r":
 					badPrevAns = false;
@@ -109,8 +113,16 @@ public class LinkedListDriver<T extends Comparable<T>> {
 					System.out.println("The reversed list: " + dll.toString());
 					break;
 				case "b":
-					System.out.println("delete subsection");
-					break;
+				    System.out.print("Enter lower bound: ");
+				    String lowerBound = sc.nextLine();
+				    System.out.print("Enter upper bound: ");
+				    String upperBound = sc.nextLine();
+				    System.out.println("Original List: " + dll.toString());
+				    dll.deleteSubsection(lowerBound, upperBound);
+				    System.out.println("Modified List: " + dll.toString());
+				    dll.printReverse();
+				    System.out.println("Reversed List: " + dll.toString());
+				    break;
 				case "t":
 					badPrevAns = false;
 					dll.printReverse();
