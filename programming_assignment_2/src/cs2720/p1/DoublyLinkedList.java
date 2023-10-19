@@ -79,13 +79,6 @@ public class DoublyLinkedList<T extends Comparable<T>> {
 		// Traverse the list and find index to place item
 		while (current != null) {
 			compareResult = item.compareTo(current.getInfo());
-
-			if (isAscending && compareResult <= 0) {
-				break;
-			}
-			if (!isAscending && compareResult >= 0) {
-				break;
-			}
 			prev = current;
 			current = current.getNext();
 		} // while loop
@@ -185,55 +178,54 @@ public class DoublyLinkedList<T extends Comparable<T>> {
 	 * @param a the lower bound (inclusive)
 	 * @param b the upper bound (inclusive)
 	 */
-    public void deleteSubsection(T a, T b) {
-	if (this.length() == 0) {
-	    return;
+	public void deleteSubsection(T a, T b) {
+		if (this.length() == 0) {
+			return;
+		}
+		Nodetype<T> current = head;
+		Nodetype<T> currentNext = current.getNext();
+		while (current != null) {
+			currentNext = current.getNext();
+			if (current.getInfo().compareTo(a) >= 0 &&
+					current.getInfo().compareTo(b) <= 0) {
+				deleteItem(current.getInfo());
+			}
+			current = currentNext;
+			if (current == null) {
+				return;
+			}
+		}
 	}
-	Nodetype<T> current = head;
-	Nodetype<T> currentNext = current.getNext();
-	while (current != null) {
-	    currentNext = current.getNext();
-	    if (current.getInfo().compareTo(a) >= 0 &&
-		current.getInfo().compareTo(b) <= 0) {
-		deleteItem(current.getInfo());
-	    }
-	    current = currentNext;
-	    if (current == null) {
-		return;
-	    }
+
+	public void deleteSubsection(String one, String two) {
+		T gen_one = (T) one;
+		T gen_two = (T) two;
+
+		deleteSubsection(gen_one, gen_two);
 	}
-    }
-    
-    public void deleteSubsection(String one, String two) {
-	T gen_one = (T) one;
-	T gen_two = (T) two;
-	
-	deleteSubsection(gen_one, gen_two);
-    }
-    
-    
-    /**
-     * Swaps adjacent nodes.
-     *
-     */
-    public void swapAlternate() {
-	if (head == null || head.getNext() == null) {
-	    return;
+
+	/**
+	 * Swaps adjacent nodes.
+	 *
+	 */
+	public void swapAlternate() {
+		if (head == null || head.getNext() == null) {
+			return;
+		}
+
+		Nodetype<T> current = head;
+		Nodetype<T> newHead = head.getNext();
+		while (current != null && current.getNext() != null) {
+			Nodetype<T> temp = current.getNext();
+			current.setNext(current.getNext().getNext());
+			temp.setNext(current);
+			current = current.getNext();
+			if (current != null && current.getNext() != null) {
+				temp.getNext().setNext(current.getNext());
+			}
+		}
+		head = newHead;
 	}
-	
-	Nodetype<T> current = head;
-	Nodetype<T> newHead = head.getNext();
-	while (current != null && current.getNext() != null) {
-	    Nodetype<T> temp = current.getNext();
-	    current.setNext(current.getNext().getNext());
-	    temp.setNext(current);
-	    current = current.getNext();
-	    if (current != null && current.getNext() != null) {
-		temp.getNext().setNext(current.getNext());
-	    }
-	}
-	head = newHead;
-    }
 
 	/**
 	 * Returns the number of elements in the given DoublyLinkedList
@@ -319,7 +311,7 @@ public class DoublyLinkedList<T extends Comparable<T>> {
 	 * @param <T>    the type of the elements in the doubly linked list
 	 */
 	public void initializeFromString(String string) {
-	    String[] stringArray = string.split(" ");
+		String[] stringArray = string.split(" ");
 		if (stringArray.length == 0) {
 			return;
 		}
