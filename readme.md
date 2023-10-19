@@ -60,8 +60,6 @@ The program supports the following commands:
 
 ## Contributions
 
-### Ryan
-
-worked on the `LinkedListDriver.java`, UML Diagram, `readme.md` mostely and methods: Insert(), Delete(), Print(), Length()
+Ryan worked on the `LinkedListDriver.java`, UML Diagram, `readme.md` mostely and methods: Insert(), Delete(), Print(), Length()
 
 Maulik worked on printReverse(), Delete Subsection(), Reverse List(), Swap Alternate().
