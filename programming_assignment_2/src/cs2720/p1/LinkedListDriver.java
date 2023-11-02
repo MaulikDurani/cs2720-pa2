@@ -12,46 +12,42 @@ public class LinkedListDriver<T extends Comparable<T>> {
 	 */
 	public static void main(String[] args) throws FileNotFoundException {
 		File file = null;
-		Scanner sc = new Scanner(System.in);
-		// Scanner scan;
 		boolean quit = false;
 		boolean badPrevAns = false;
+		Scanner sc = new Scanner(System.in);
+		// Scanner scan;
 		System.out.print("Enter list type (i - int, d - double, s - std:string): ");
+
 		String choice = sc.nextLine();
-		DoublyLinkedList dll;
+		DoublyLinkedList<?> dll = null;
 		// File "creation"
 		switch (choice) {
 			case ("i"): {
 				file = new File("resources/int-input.txt");
+				dll = new DoublyLinkedList<Integer>();
 				break;
 			}
 			case ("d"): {
 				file = new File("resources/double-input.txt");
+				dll = new DoublyLinkedList<Double>();
 				break;
 			}
 			case ("s"): {
 				file = new File("resources/string-input.txt");
+				dll = new DoublyLinkedList<String>();
 				break;
 			}
 			default: {
 				System.err.println("Invalid file format");
-				return;
+				sc.close();
+				throw new FileNotFoundException("FnFE");
+
 			}
 
 		} // end of switch statement
-		switch (choice) {
-			case "d": {
-				dll = new DoublyLinkedList<Double>(); // DoublyLinkedList<Double>
-				break;
-			}
-			case "s": {
-				dll = new DoublyLinkedList<String>(); // dll = new DoublyLinkedList<String>(); //
-				break;
-			}
-			default: {
-				dll = new DoublyLinkedList<Integer>(); // DoublyLinkedList<Integer>
-			}
-		}
+
+		// define dll here
+
 		String commands = "Commands: \n" +
 				"(i) - Insert value\n" +
 				"(d) - Delete value\n" +
@@ -73,13 +69,14 @@ public class LinkedListDriver<T extends Comparable<T>> {
 			String cmd = sc.nextLine();
 			cmd = cmd.toLowerCase();
 
+			// String inputText = sc.nextInt();
 			switch (cmd) {
 				case "i":
 					badPrevAns = false;
-					System.out.print("Enter a " + dll.elementType + " to insert: ");
+					System.out.print("Enter a item to insert: ");
 					// need to figure a way to save the input text
-					String inputText = sc.nextLine();
-					dll.insertItem(inputText);
+					String input = sc.nextLine();
+					dll.convertAndInsert(input);
 					System.out.println("The list is: " + dll.toString());
 					break;
 				case "q":
@@ -93,7 +90,7 @@ public class LinkedListDriver<T extends Comparable<T>> {
 					break;
 				case "d":
 					badPrevAns = false;
-					System.out.print("Enter a " + dll.elementType + " to delete: ");
+					System.out.print("Enter an item to delete: ");
 					String newNum = sc.nextLine();
 					dll.deleteItem(newNum);
 					System.out.println("The list is: " + dll.toString());
@@ -113,16 +110,16 @@ public class LinkedListDriver<T extends Comparable<T>> {
 					System.out.println("The reversed list: " + dll.toString());
 					break;
 				case "b":
-				    System.out.print("Enter lower bound: ");
-				    String lowerBound = sc.nextLine();
-				    System.out.print("Enter upper bound: ");
-				    String upperBound = sc.nextLine();
-				    System.out.println("Original List: " + dll.toString());
-				    dll.deleteSubsection(lowerBound, upperBound);
-				    System.out.println("Modified List: " + dll.toString());
-				    dll.printReverse();
-				    System.out.println("Reversed List: " + dll.toString());
-				    break;
+					System.out.print("Enter lower bound: ");
+					String lowerBound = sc.nextLine();
+					System.out.print("Enter upper bound: ");
+					String upperBound = sc.nextLine();
+					System.out.println("Original List: " + dll.toString());
+					dll.deleteSubsection(lowerBound, upperBound);
+					System.out.println("Modified List: " + dll.toString());
+					dll.printReverse();
+					System.out.println("Reversed List: " + dll.toString());
+					break;
 				case "t":
 					badPrevAns = false;
 					dll.printReverse();
@@ -155,7 +152,6 @@ public class LinkedListDriver<T extends Comparable<T>> {
 			while (reader.hasNextLine()) {
 				dataset.append(reader.nextLine()).append("\n");
 			}
-			Scanner read = new Scanner(dataset.toString()); // gonna figure this out later
 			return (dataset.toString());
 		} catch (FileNotFoundException fnfe) {
 			return "not a string";

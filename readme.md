@@ -1,11 +1,8 @@
 Ryan Majd & Maulik Durani | <rm97798@uga.edu> & <md00211@uga.edu>
 
-    # doubly-linked-list assignment
+# Doubly-Linked-List Assignment (CS2720)
 
-    cs2720
     Dr. Jin Lu (Data Structures)
-
-    # doubly Linked List Program
 
 This Java program demonstrates the creation and manipulation of a generic doubly linked list, providing various operations on the list, including insertion, deletion, search, merging, finding intersections, and more.
 
@@ -29,25 +26,15 @@ It provides methods to insert and delete elements, check if an element is in the
 
 This `readme.md` provides an explanation of the code used to compile a Java program. The code includes the `java` command with various arguments and options.
 
-### Complicated Compile Code
+The "compile.sh" script should work correctly now. Alternatively, use:
 
-```bash
-/usr/bin/env /Library/Java/JavaVirtualMachines/jdk-18.0.2.1.jdk/Contents/Home/bin/java -cp /Users/USERNAME/Library/Application\ Support/Code/User/workspaceStorage/hash/redhat.java/jdt_ws/cs2720-pa2_cd3e92c2/bin cs2720.p1.LinkedListDriver
 ```
-
-/usr/bin/env: This is the shebang line that is used to locate the java executable in your system's environment.
-
-/Library/Java/JavaVirtualMachines/jdk-18.0.2.1.jdk/Contents/Home/bin/java: This is the path to the java executable. It specifies the Java Virtual Machine (JVM) that should be used to run the Java program.
-
--cp: This option specifies the classpath, which is a list of directories and JAR files that contain the Java classes required to run the program.
-
-/Users/`USERNAME`/Library/Application\ Support/Code/User/workspaceStorage/`hash`/redhat.java/jdt_ws/cs2720-pa2_cd3e92c2/bin: This is the path to the directory containing the compiled Java classes and resources necessary for execution.
-
-cs2720.p1.LinkedListDriver: This is the fully qualified class name of the Java program that you want to execute.
+java -cp bin/ src/cs2720/p1/LinkedListDriver.java
+```
 
 ## Available Commands
 
-The program supports the following commands:
+```The program supports the following commands:
 (i) - Insert value
 (d) - Delete value
 (p) - Print list
@@ -57,9 +44,10 @@ The program supports the following commands:
 (b) - Delete Subsection
 (s) - Swap Alternate
 (q) - Quit program
+```
 
 ## Contributions
 
-Ryan worked on the `LinkedListDriver.java`, UML Diagram, `readme.md` mostely and methods: Insert(), Delete(), Print(), Length()
+Ryan worked on the `LinkedListDriver.java`, UML Diagram, `readme.md` mostly and methods: Insert(), Delete(), Print(), Length()
 
 Maulik worked on printReverse(), Delete Subsection(), Reverse List(), Swap Alternate().
