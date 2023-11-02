@@ -29,7 +29,7 @@ This `readme.md` provides an explanation of the code used to compile a Java prog
 The "compile.sh" script should work correctly now. Alternatively, use:
 
 ```
-java -cp bin/ src/cs2720/p1/LinkedListDriver.java
+java -cp programming_assignment_2/bin/ programming_assignment_2/src/cs2720/p1/LinkedListDriver.java  resources/
 ```
 
 ## Available Commands
